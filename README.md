@@ -82,6 +82,24 @@ bash-4.4# ssh-add id_rsa_azure
 Identity added: id_rsa_azure (user@myhost)
 ```
 
+### Azure
+
+If you're on Azure, the commands to sprinkle SSH keys across each of your worker nodes is:
+
+```bash
+az aks show --resource-group myResourceGroup \
+    --name myAKSCluster --query nodeResourceGroup -o tsv
+
+az vm list --resource-group MC_myResourceGroup_myAKSCluster_eastus \
+    -o table
+
+az vm user update \
+    --resource-group MC_myResourceGroup_myAKSCluster_eastus \
+    --name aks-nodepool1-79590246-0 \
+    --username azureuser \
+    --ssh-key-value ~/.ssh/id_rsa.pub
+```
+
 ## List your keys
 
 In raw Docker:
