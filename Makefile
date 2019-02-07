@@ -17,11 +17,13 @@ all: clean release
 .PHONY: package
 package:
 	docker build -f Dockerfile -t nuodb/ssh-agent:$(VERSION) .
+	docker tag nuodb/ssh-agent:$(VERSION) nuodb/ssh-agent:latest
 
 #:help: publish     | Publishes a Docker image
 .PHONY: publish
 publish:
 	docker push nuodb/ssh-agent:$(VERSION)
+	docker push nuodb/ssh-agent:latest
 
 #:help: clean       | Cleans up any build artifacts
 .PHONY: clean
