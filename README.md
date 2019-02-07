@@ -69,7 +69,8 @@ ssh-agent                   1/1       Running   0          5s
 To add your ssh keys to a running container, simply mount the same volume provided by the ssh-agent container, and run the ssh-add command:
 
 ```bash
-docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/root/.ssh -it ssh-agent ssh-add /root/.ssh/id_rsa
+docker run --rm --volumes-from=ssh-agent -v ~/.ssh:/root/.ssh -it ssh-agent \
+    ssh-add /root/.ssh/id_rsa
 ```
 
 In Kubernetes the commands are slightly different:
@@ -78,7 +79,7 @@ In Kubernetes the commands are slightly different:
 $ kubectl cp ~/.ssh/id_rsa_azure ssh-agent:/id_rsa_azure
 $ kubectl exec -it ssh-agent -- /bin/bash
 bash-4.4# ssh-add id_rsa_azure 
-Identity added: id_rsa_azure (rbuck@bbucks-macbook-pro.local)
+Identity added: id_rsa_azure (user@myhost)
 ```
 
 ## List your keys
@@ -86,14 +87,15 @@ Identity added: id_rsa_azure (rbuck@bbucks-macbook-pro.local)
 In raw Docker:
 
 ```bash
-docker run --rm -it -v ssh:/ssh -e SSH_AUTH_SOCK=/ssh/auth/sock ubuntu /bin/bash -c "apt-get update && apt-get install -y openssh-client && ssh-add -l"
+docker run --rm -it -v ssh:/ssh -e SSH_AUTH_SOCK=/ssh/auth/sock ubuntu \
+    /bin/bash -c "apt-get update && apt-get install -y openssh-client && ssh-add -l"
 ```
 
 Or in Kubernetes:
 
 ```bash
 $ ssh-add -l
-4096 SHA256:Wy++YENjXREFUAKvv86wJ4gc0294ltd6LVx+fXnv5qU rbuck@bbucks-macbook-pro.local (RSA)
+4096 askjhjk34h25243jk5kjhasfhj you@mylaptop (RSA)
 
 ```
 
